@@ -19,6 +19,7 @@ if __name__ == '__main__':
     parser.add_argument('--query', type=int, default=15)
     parser.add_argument('--train-way', type=int, default=30)
     parser.add_argument('--test-way', type=int, default=5)
+    parser.add_argument('--step-size', type=int, default=20)
     parser.add_argument('--save-path', default='./save/proto-1')
     parser.add_argument('--gpu', default='0')
     args = parser.parse_args()
@@ -42,7 +43,7 @@ if __name__ == '__main__':
     model = Convnet().cuda()
     
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-    lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
+    lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=args.step_size, gamma=0.5)
 
     def save_model(name):
         torch.save(model.state_dict(), osp.join(args.save_path, name + '.pth'))
